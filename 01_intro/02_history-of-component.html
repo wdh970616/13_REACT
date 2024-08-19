@@ -13,16 +13,27 @@
     <script>
         
         // 클래스형 컴포넌트
-        class HelloWolrd extends React.Component {
-            render() {
-                return React.createElement(
-                    'h1',
-                    {className: 'greeting'},
-                    'Hello World'
-                );
-            }
-        }
+        // class HelloWolrd extends React.Component {
+        //     render() {
+        //         return React.createElement(
+        //             'h1',
+        //             {className: 'greeting'},
+        //             'Hello World'
+        //         );
+        //     }
+        // }
 
+        // 함수형 컴포넌트
+        function HelloWorld() {
+            return React.createElement(
+                'h1',
+                {className: 'greeting', id : 'test'},
+                'Hello World'
+            )
+        }
+        ReactDOM.createRoot(document.getElementById('root')).render(
+            React.createElement(HelloWorld)
+        )
     </script>
 
 </body>
