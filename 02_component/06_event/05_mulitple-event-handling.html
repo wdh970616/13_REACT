@@ -45,15 +45,24 @@
                 password: '',
             }
 
-            onChangeHandler1 = e => {
-                this.setState({
-                    username: e.target.value
-                });
-            }
+            // onChangeHandler1 = e => {
+            //     this.setState({
+            //         username: e.target.value
+            //     });
+            // }
 
-            onChangeHandler2 = e => {
+            // onChangeHandler2 = e => {
+            //     this.setState({
+            //         password: e.target.value
+            //     });
+            // }
+            
+            // 이벤트가 발생한 input 태그의 name 속성 값을 활용하여
+            // 하나의 이벤트 핸들러 메소드로 처리할 수 있다.
+            onChangeHandler = e => {
+                // console.log(e.target.name);
                 this.setState({
-                    password: e.target.value
+                    [e.target.name]: e.target.value
                 });
             }
 
@@ -76,7 +85,7 @@
                             name='username'
                             placeholder='아이디를 입력하세요'
                             value={this.state.username}
-                            onChange={this.onChangeHandler1}
+                            onChange={this.onChangeHandler}
                         />
                         <br/>
                         <label>비밀번호</label>
@@ -85,7 +94,7 @@
                             name='password'
                             placeholder='비밀번호를 입력하세요'
                             value={this.state.password}
-                            onChange={this.onChangeHandler2}
+                            onChange={this.onChangeHandler}
                         />
                         <button onClick={this.onClickHandler}>로그인</button>
                     </>
