@@ -22,24 +22,69 @@
         두 번째 인자는 현재 컴포넌트가 가지는 props이다.
         만약 props가 필요하지 않은 상황이라면 생략하는 것도 가능하다.
     -->
+
     <script type = "text/babel">
 
         class Counter extends React.Component{
 
             // 클래스의 속성으로 state 추가도 가능하다. (이때 this.는 사용하지 않음)
             state = {
-                number:0
+                number:0,
+                name:'ss'
             }
+            
+            /*
+            setState는 비동기 방식으로 state를 백그라운드에서 업데이트한다.
+            때문에, 상태변경하는게 함수에 반영되지 않고, 메모리에만 임시로 변경된 상태를 가지고 있다가
+            함수가 종료되면 마지막 set State 함수만 변경 내역으로 반영시킨다.
 
+            실시간으로 변화되는 state를 활용하기 위해서는 setState에 콜백함수를 넘기고
+            prevState를 활용하면 된다.
+            */
             render() {
+
+                const {number} = this.state;
+
                 return (
                     <>
                         <h1 style={(number < 0)? {color:'red'} : {color : 'blue'}}>
                             Count : {number}
                         </h1>
+                        
+                        <button onClick={ () => {
+                            this.setState({number: number - 1 })}}>-1</button>
+                        <button onClick={ () => 
+                            {
+                                // props도 전달 받을 수 있음
+                                this.setState((prevState) => {
+                                    console.log(prevState);
 
-                        <button onClick={ () => this.setState({number: number - 1 })}>-1</button>
-                        <button onClick={ () => this.setState({number: number + 1 })}>+1</button>
+                                    return {
+                                        number: prevState.number + 1
+                                    };
+                                })
+
+                                this.setStat({number: prevState.number + 1})
+
+                                this.setState((prevState) => {
+                                    console.log(prevState);
+
+                                    return{
+                                        number: prevState.number + 1
+                                    };
+                                })
+
+                                this.setState((prevState) => {
+                                    console.log(prevState);
+
+                                    return{
+                                        number: prevState.number + 1
+                                    };
+                                })
+                            }}
+                            >
+                            +1
+                            </button>
                     </>
                 )
             }
