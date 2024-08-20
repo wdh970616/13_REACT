@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id = "root"></div>
+
+
+    <script type = "text/babel">
+
+        class Counter extends React.Component{
+            
+            // 클래스형 컴포넌트는 생성자(constructor)에서 props를 받을 수 있다.
+            // -> 클래스형 컴포넌트에서 props를 받기 위해서는 constructor를 명시적으로 작성해야함.
+            constructor(props) {
+
+                // 부모컴포넌트로 부터 전달받은 props를 부모 클래스의 생성자에
+                // 전달하면서 컴포넌트를 생성해야한다.
+                super(props) // 반드시 명시해야한다.
+
+                this.state = {
+                    number: 3
+                };
+            }
+            
+            render() {
+
+                const {number} = this.state;
+
+                console.log(number);
+
+                return (
+                    <>
+                        <h1>출력되니?</h1>
+                    </>
+                )
+            }
+        }
+        
+        ReactDOM.createRoot(document.getElementById('root')).render(<Counter/>);
+    </script>
+</body>
+</html>
