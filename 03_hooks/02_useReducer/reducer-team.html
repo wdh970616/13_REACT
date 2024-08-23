@@ -18,27 +18,23 @@
         const { useReducer } = React;
 
         function reducer(state, action) {
-            console.log(Boolean)
             return {
-                text: Boolean ? '양' : '늑대'    
+                status: !state.status,
+                text: state.status ? '늑대' : '양',
             };
         }
 
         function TeamName() {
 
             const [state, dispatch] = useReducer(reducer, {
-                Boolean: true,
-                text: 'sheep',
+                status: true,
+                text: '양',
             });
-
-            const onClickHandler = () => {
-                dispatch(!Boolean);
-            };
 
             return (
                 <>
                     <h1>{state.text}</h1>
-                    <button onClick={onClickHandler}>바꾸기</button>
+                    <button onClick={() => dispatch()}>바꾸기</button>
                 </>
             );
         }

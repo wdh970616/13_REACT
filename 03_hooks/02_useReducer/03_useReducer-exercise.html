@@ -172,14 +172,14 @@
             switch (action.type) {
                 case 'INPUT_TODOTHING': return {
                     ...state,
-                    inputToDoThing: action.value,
+                    inputToDoThing: state.value,
                 }
 
                 case 'ADD': return {
                     ...state,
-                    toDoThings: [...toDoThings, { id: state.id, toDoThing: action.toDoThing }],
+                    toDoThings: [...inputToDoThings, { id: state.id, toDoThing: state.inputToDoThing }],
                     id: state.id + 1,
-                    InputToDoThing: '',
+                    inputToDoThing: '',
                 }
 
                 default:
@@ -190,69 +190,13 @@
         function App() {
             const date = new Date().toLocaleDateString();
 
-            // const [inputText, setInputText] = useState('');
-            // const [nextId, setNextId] = useState(1);
-
-            // const [toDoThing, setToDoList] = useState([]);
-            // const toDoList = toDoThing.map(toDoThing =>
-            //     <div id='toDoThing' key={toDoThing.id}>
-            //         <input id='checkbox' type='checkbox' />
-            //         <button id='deleteButton' onClick={() => onRemove(toDoThing.id)}>X</button>
-            //         {toDoThing.toDoThing}
-            //     </div>);
-
-            // const onChangeHandler = event => setInputText(event.target.value);
-
-            // const onClickHandler = () => {
-            //     const toDoThingCopy = toDoThing.concat({
-            //         id: nextId,
-            //         toDoThing: inputText,
-            //     })
-
-            //     setNextId(nextId + 1);
-            //     setToDoList(toDoThingCopy);
-            //     setInputText('');
-
-            //     console.log(toDoList);
-            // }
-
-            // const onRemove = id => {
-            //     const changeList = toDoThing.filter(toDoThing => toDoThing.id !== id);
-            //     setToDoList(changeList);
-            // }
-
-            // return (
-            //     <>
-            //         <header>
-            //             <span id='headerTitle'>오늘의 할일!</span>
-            //             <span>{date}</span>
-            //         </header>
-
-            //         <div id='main'>
-            //             <span id='mainTitle'>ToDo-List</span>
-            //             <div id='listSection'>
-            //                 {toDoList}
-            //             </div>
-
-            //             <div id='inputSection'>
-            //                 <input id='inputBox' value={inputText} onChange={onChangeHandler} />
-            //                 <button id='inputButton' onClick={onClickHandler}>추가하기</button>
-            //             </div>
-            //         </div>
-
-            //         <footer>
-            //             Copyright 2024. team-ohgiragffers all rights reserved.
-            //         </footer>
-            //     </>
-            // )
+            const [state, dispatch] = useReducer(reducer, toDoList);
 
             const toDoList = state.toDoThings.map(toDoThing =>
                 <div id='toDoThing' key={toDoThing.id}>
                     <input id='checkbox' type='checkbox' />
                     {toDoThing.toDoThing}
                 </div>);
-
-            const [state, dispatch] = useReducer(reducer, toDoList);
 
             const onChangeHandler = e => dispatch({ type: 'INPUT_TODOTHING', value: e.target.value });
             const onClickHandler = () => { dispatch({ type: 'ADD', toDoThing: state.inputToDoThing }) };
