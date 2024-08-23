@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .page {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+        }
+
+        .footer {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        /*
+            context는 React 컴포넌트 트리 안에서 전역적으로 데이터를 공유할 수 있도록 고안된 방법이다.
+            트리 구조가 복잡해질수록 하위 컴포넌트로 props를 전달하기 위해 drilling이 발생할 수 있게 되고
+            그로인해 유지보수가 매우 힘들어지고 코드를 읽기도 힘들어지게된다.
+            하지만 context를 사용하면 중간 컴포넌트들에게 props를 넘겨주지 않아도 되고 유지보수도 훨씬 수월해진다.
+
+            단, context를 사용하면 컴포넌트를 재사용하기 어려워지기 때문에 꼭 필요한때만 써야한다.
+            그러므로 context와 props drilling 중 더 좋은 방법을 잘 골라 써야한다.
+        */
+        const { useState, createContext, useContext } = React;
+
+        const DarkModeContext = createContext(null);
+
+        /* 
+            Provider는 value prop을 이용하여 하위 컴포넌트에 값을 전달한다.
+            이 때 값을 전달받을 수 있는 컴포넌트의 수에는 제한이 없다.
+            해당 Provider는 Context의 이름으로부터 useContext hooks를 활용해 어느 컴포넌트는 필요한 순간에 가져다 쓸 수 있다.
+        */
+        function App() {
+
+            const [isDark, setIsDark] = useState(false);
+
+            return (
+                <DarkModeContext.Provider value={{ isDark, setIsDark }}>
+                    <Page />
+                </DarkModeContext.Provider>
+            );
+        }
+
+        function Page() {
+            return (
+                <div className='page'>
+                    <Header />
+                    <Content />
+                    <Footer />
+                </div>
+            );
+        }
+
+        // useContext를 통해 해당 context를 찾을 수 있고 context 안에 전달된 props를 꺼내서 사용할 수 있다.
+        function Header() {
+
+            const context = useContext(DarkModeContext);
+            const { isDark } = context;
+
+            return (
+                <header className='header' style={{
+                    backgroundColor: isDark ? 'black' : 'lightgray',
+                    color: isDark ? 'white' : 'black',
+                }}>
+                    <h1>Welcome to Ogiraffers World!</h1>
+                </header>
+            );
+        }
+
+        function Content() {
+
+            const context = useContext(DarkModeContext);
+            const { isDark } = context;
+
+            return (
+                <div className='content' style={{
+                    backgroundColor: isDark ? 'lightgray' : 'black',
+                    color: isDark ? 'black' : 'white',
+                }}>
+                    <p>컨텐츠입니다.</p>
+                </div>
+            )
+        }
+
+        function Footer() {
+
+            const context = useContext(DarkModeContext);
+            const { isDark, setIsDark } = context;
+
+            const toggleHandler = () => { setIsDark(!isDark) };
+
+            return (
+                <footer className='footer' style={{
+                    backgroundColor: isDark ? 'black' : 'lightgray',
+                    color: isDark ? 'white' : 'black',
+                }}>
+                    <button onClick={toggleHandler}>isDark</button>
+                    Copyright 2024. team-ohgiraffers. all right reserved.
+                </footer>
+            )
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+
+</html>

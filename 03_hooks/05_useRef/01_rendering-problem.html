@@ -12,38 +12,29 @@
 
 <body>
     <div id="root"></div>
-
     <script type="text/babel">
 
-        const { useReducer } = React;
+        const { useState } = React;
 
-        function reducer(state, action) {
-            console.log(Boolean)
-            return {
-                text: Boolean ? '양' : '늑대'    
-            };
-        }
+        function Counter() {
 
-        function TeamName() {
+            const [count, setCount] = useState(0);
 
-            const [state, dispatch] = useReducer(reducer, {
-                Boolean: true,
-                text: 'sheep',
-            });
+            console.log('Counter 렌더링됨');
 
-            const onClickHandler = () => {
-                dispatch(!Boolean);
+            const increaseCount = () => {
+                setCount(count + 1);
             };
 
             return (
                 <>
-                    <h1>{state.text}</h1>
-                    <button onClick={onClickHandler}>바꾸기</button>
+                    <h1>count : {count}</h1>
+                    <button onClick={increaseCount}>카운트 증가</button>
                 </>
             );
         }
 
-        ReactDOM.createRoot(document.getElementById('root')).render(<TeamName />);
+        ReactDOM.createRoot(document.getElementById('root')).render(<Counter />);
     </script>
 </body>
 
