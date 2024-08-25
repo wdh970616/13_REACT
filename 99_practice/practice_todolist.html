@@ -2,8 +2,8 @@
 <html lang="ko">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -28,8 +28,7 @@
         header {
             user-select: none;
 
-            background-color: black;
-            color: white;
+            color: black;
 
             display: flex;
             justify-content: center;
@@ -49,8 +48,6 @@
         }
 
         #main {
-            background-color: aliceblue;
-
             display: flex;
             justify-content: space-evenly;
             align-items: center;
@@ -71,10 +68,9 @@
         }
 
         #listSection {
-            background-color: white;
-            border: 1px solid black;
-
             overflow: auto;
+
+            border: 1px solid black;
 
             height: 80%;
             width: 70%;
@@ -134,9 +130,6 @@
         footer {
             user-select: none;
 
-            background-color: black;
-            color: white;
-
             display: flex;
             justify-content: center;
             text-align: center;
@@ -150,77 +143,137 @@
 
             font-size: 15px;
         }
+
+        .checked {
+            text-decoration: line-through;
+        }
+
+        #darkModeButton {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            height: 25px;
+            width: 80px;
+
+            right: 50px;
+
+            border-radius: 5px;
+        }
     </style>
 </head>
 
 <body>
     <div id="root"></div>
     <script type="text/babel">
+
         const { useState } = React;
 
         function App() {
-
             const date = new Date().toLocaleDateString();
 
-            const [inputText, setInputText] = useState('');
+            const [isDark, setIsDark] = useState(false);
+
+            const [inputText, setInputText] = useState("");
             const [nextId, setNextId] = useState(1);
 
             const [toDoThing, setToDoList] = useState([]);
-            const toDoList = toDoThing.map(toDoThing =>
-                <div id='toDoThing' key={toDoThing.id}>
-                    <button id='deleteButton' onClick={() => onRemove(toDoThing.id)}>X</button>
-                    <input id='checkbox' type='checkbox' />
-                    {toDoThing.toDoThing}
-                </div>);
+            const toDoList = toDoThing.map((toDoThing) => (
+                <div id="toDoThing" key={toDoThing.id}>
+                    <button id="deleteButton" onClick={() => onRemove(toDoThing.id)}>X</button>
+                    <input type='checkbox' id="checkbox" checked={toDoThing.checked} onChange={() => isCheck(toDoThing.id)} />
+                    <span className={toDoThing.checked ? 'checked' : ""}>
+                        {toDoThing.toDoThing}
+                    </span>
+                </div>
+            ));
 
-            const onChangeHandler = event => setInputText(event.target.value);
+            const onChangeHandler = (event) => setInputText(event.target.value);
 
             const onClickHandler = () => {
                 const toDoThingCopy = toDoThing.concat({
                     id: nextId,
                     toDoThing: inputText,
-                })
+                });
 
                 setNextId(nextId + 1);
                 setToDoList(toDoThingCopy);
-                setInputText('');
+                setInputText("");
 
                 console.log(toDoList);
-            }
+            };
 
-            const onRemove = id => {
-                const changeList = toDoThing.filter(toDoThing => toDoThing.id !== id);
+            const onRemove = (id) => {
+                const changeList = toDoThing.filter(
+                    (toDoThing) => toDoThing.id !== id
+                );
                 setToDoList(changeList);
-            }
+            };
+
+            const isCheck = (id) => {
+                const checkedList = toDoThing.map((toDoThing) =>
+                    toDoThing.id === id ? { ...toDoThing, checked: !toDoThing.checked } : toDoThing
+                );
+
+                const sortedList = [
+                    ...checkedList.filter((toDoThing) => !toDoThing.checked),
+                    ...checkedList.filter((toDoThing) => toDoThing.checked),
+                ];
+
+                setToDoList(sortedList);
+            };
+
+            const darkModeHandler = () => {
+                setIsDark(!isDark),
+                    console.log(`DarkMode : `, `${isDark ? 'OFF' : 'ON'}`)
+            };
 
             return (
                 <>
-                    <header>
-                        <span id='headerTitle'>오늘의 할일!</span>
+                    <header style={{
+                        backgroundColor: isDark ? 'black' : 'mistyrose',
+                        color: isDark ? 'whitesmoke' : 'black'
+                    }}>
+                        <span id="headerTitle">오늘의 할일!</span>
                         <span>{date}</span>
                     </header>
 
-                    <div id='main'>
-                        <span id='mainTitle'>ToDo-List</span>
-                        <div id='listSection'>
-                            {toDoList}
-                        </div>
+                    <div id="main" style={{
+                        backgroundColor: isDark ? 'dimgray' : 'lemonchiffon'
+                    }}>
+                        <span id="mainTitle">ToDo-List</span>
+                        <div id="listSection">{toDoList}</div>
 
-                        <div id='inputSection'>
-                            <input id='inputBox' value={inputText} onChange={onChangeHandler} />
-                            <button id='inputButton' onClick={onClickHandler}>추가하기</button>
+                        <div id="inputSection">
+                            <input id="inputBox" value={inputText} onChange={onChangeHandler} style={{
+                                backgroundColor: isDark ? 'dimgray' : 'mistyrose'
+                            }} />
+                            <button id="inputButton" onClick={onClickHandler} style={{
+                                backgroundColor: isDark ? 'black' : 'mistyrose',
+                                color: isDark ? 'white' : 'black'
+                            }}>
+                                추가하기
+                            </button>
                         </div>
                     </div>
 
-                    <footer>
+                    <footer style={{
+                        backgroundColor: isDark ? 'black' : 'mistyrose',
+                        color: isDark ? 'white' : 'black'
+                    }}>
                         Copyright 2024. team-ohgiragffers all rights reserved.
+                        <button id='darkModeButton' onClick={darkModeHandler} style={{
+                            backgroundColor: isDark ? 'dimgray' : 'lemonchiffon',
+                            color: isDark ? 'white' : 'black'
+                        }}>{isDark ? '다크모드' : '컬러모드'}</button>
                     </footer>
                 </>
-            )
+            );
         }
 
-        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+        ReactDOM.createRoot(document.getElementById("root")).render(<App />);
     </script>
 </body>
 
-</html>z
+</html>
