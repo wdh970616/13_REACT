@@ -144,10 +144,6 @@
             font-size: 15px;
         }
 
-        .checked {
-            text-decoration: line-through;
-        }
-
         #darkModeButton {
             position: absolute;
             display: flex;
@@ -168,7 +164,7 @@
     <div id="root"></div>
     <script type="text/babel">
 
-        const { useState } = React;
+        const { useState, useEffect } = React;
 
         function App() {
             const date = new Date().toLocaleDateString();
@@ -180,10 +176,10 @@
 
             const [toDoThing, setToDoList] = useState([]);
             const toDoList = toDoThing.map((toDoThing) => (
-                <div id="toDoThing" key={toDoThing.idl}>
+                <div id="toDoThing" key={toDoThing.id}>
                     <button id="deleteButton" onClick={() => onRemove(toDoThing.id)}>X</button>
                     <input type='checkbox' id="checkbox" checked={toDoThing.checked} onChange={() => isCheck(toDoThing.id)} />
-                    <span className={toDoThing.checked ? 'checked' : ""}>
+                    <span style={{ textDecoration: toDoThing.checked ? 'line-through' : 'none' }}>
                         {toDoThing.toDoThing}
                     </span>
                 </div>
@@ -195,13 +191,12 @@
                 const toDoThingCopy = toDoThing.concat({
                     id: nextId,
                     toDoThing: inputText,
+                    checked: false,
                 });
 
                 setNextId(nextId + 1);
                 setToDoList(toDoThingCopy);
                 setInputText("");
-
-                console.log(toDoList);
             };
 
             const onRemove = (id) => {
@@ -228,6 +223,14 @@
                 setIsDark(!isDark),
                     console.log(`DarkMode : `, `${isDark ? 'OFF' : 'ON'}`)
             };
+
+            useEffect(() => {
+                const sortedList = [
+                    ...toDoThing.filter((toDoThing) => !toDoThing.checked),
+                    ...toDoThing.filter((toDoThing) => toDoThing.checked),
+                ];
+                setToDoList(sortedList);
+            }, [toDoThing]);
 
             return (
                 <>
