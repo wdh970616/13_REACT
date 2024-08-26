@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+
+    <script type="text/babel">
+
+        // 우리가 개발할 것
+
+        // 사용자가 입력을 하면 버튼을 눌렀을 때 사용자가 입력한 정보에 해당하는 이모지를 가져와야한다.
+        // 이모지 (?) 어떻게 갖고와야할까? 이모지 => 이미지 url => key로 찾아올수있다.
+        // https://api.github.com/emojis
+
+        const { useState } = React;
+
+        function SearchBox({ setImgUrl }) {
+
+            const [emojiName, setEmojiName] = useState('');
+
+            // 사용자 입력을 emojiName(상태값)으로 받는다.
+            const onChangeHandler = (e) => {
+                setEmojiName(e.target.value);
+            };
+
+            // 버튼을 눌렀을 때 사용자가 입력한 값(emojiName)에 해당하는 key가 있는지 확인하고
+            // 있으면 setImgUrl을 통해서 ImgUrl을 key에 해당하는 value로 변경하기
+            const onClickHandler = () => {
+
+                // api를 사용해서 emoji 정보 가져오기
+                fetch('https://api.github.com/emojis')
+                    .then((response) => {
+                        return response.json();
+                    }).then(result => {
+                        // console.log(result[emojiName]);
+
+                        // result에 있는 emojiName(key)로 이미지URL(value)을 찾아오고 setImgUrl을 통해서 변경하기
+                        setImgUrl(result[emojiName]);
+                    });
+            };
+
+            return (
+                <>
+                    <input type="text" onChange={onChangeHandler} />
+                    <button onClick={onClickHandler}>검색</button>
+                </>
+            );
+        }
+
+        function ImageBox({ imgUrl }) {
+            return !!imgUrl ? <img src={imgUrl} /> : <h1>텅</h1>;
+        }
+
+        function App() {
+
+            const [imgUrl, setImgUrl] = useState('');
+
+            return (
+                <>
+                    <SearchBox setImgUrl={setImgUrl} />
+                    <br />
+                    <ImageBox imgUrl={imgUrl} />
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+
+</html>

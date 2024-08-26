@@ -180,7 +180,7 @@
 
             const [toDoThing, setToDoList] = useState([]);
             const toDoList = toDoThing.map((toDoThing) => (
-                <div id="toDoThing" key={toDoThing.id}>
+                <div id="toDoThing" key={toDoThing.idl}>
                     <button id="deleteButton" onClick={() => onRemove(toDoThing.id)}>X</button>
                     <input type='checkbox' id="checkbox" checked={toDoThing.checked} onChange={() => isCheck(toDoThing.id)} />
                     <span className={toDoThing.checked ? 'checked' : ""}>
