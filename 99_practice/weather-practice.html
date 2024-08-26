@@ -12,8 +12,6 @@
 
 <body>
     <div id="root"></div>
-
-
     <script type="text/babel">
 
         const { useEffect, useState } = React;
@@ -34,6 +32,11 @@
             const [cityName, setCityName] = useState(''); // 도시이름
             const [weather, setWeather] = useState({}); // 날씨정보
             const [wind, setWind] = useState({}); // 바람정보
+
+            const [emojiUrl, setEmojiUrl] = useState(''); // 이모지 url
+            let emojiName = '';
+
+            // 날씨정보로 얻을수 있는 값 : Clear, Rain, Thunderstom, Drizzle, Snow, Clouds, Atomsphere
 
             useEffect(() => {
                 new Promise((resolve, reject) => {
@@ -61,7 +64,28 @@
                             setCityName(json.name);
                             setWeather(json.weather[0]);
                             setWind(json.wind);
-                        })
+
+                            fetch('https://api.github.com/emojis')
+                                .then(response => response.json())
+                                .then(result => {
+                                    console.log(`이모지로 변환할 날씨 : ${json.weather[0].main}`);
+
+                                    switch (json.weather[0].main) {
+                                        case 'Clear': emojiName = 'sunny'; break;
+                                        case 'Rain': emojiName = 'umbrella'; break;
+                                        case 'Thunderstom': emojiName = 'cloud_with_lightning_and_rain'; break;
+                                        case 'Drizzle': emojiName = 'cloud_with_rain'; break;
+                                        case 'Snow': emojiName = 'snowman'; break;
+                                        case 'Clouds': emojiName = 'cloud'; break;
+                                        case 'Atomsphere': emojiName = 'airplane'; break;
+                                        case 'Mist': emojiName = 'foggy'; break;
+                                    };
+
+                                    console.log(`출력할 이모지 이름 : ${emojiName}`);
+
+                                    setEmojiUrl(result[emojiName]);
+                                });
+                        });
                 });
             },
                 []
@@ -74,11 +98,11 @@
                     <h4>{`조회 도시 : ${cityName}`}</h4>
                     <h4>{`날씨 : ${weather.main} 날씨설명 : ${weather.description}`}</h4>
                     <h4>{`풍향 : ${wind.deg}° 풍속 : ${wind.speed} m/s`}</h4>
+                    <img src={emojiUrl} />
                 </>
             );
         }
 
-        // 날씨 이모지
         function App() {
             return (
                 <>
