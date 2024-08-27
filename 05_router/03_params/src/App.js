@@ -1,8 +1,8 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./layouts/Layout";
 import Main from "./pages/Main";
-import MyPage from "./pages/MyPage";
-import Login from "./pages/Login";
+import About from "./pages/About";
+import Menu from "./pages/Menu";
 
 function App() {
   return (
@@ -11,8 +11,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Main />}></Route>
-            <Route path='mypage' element={<MyPage />}></Route>
-            <Route path='login' element={<Login />}></Route>
+            <Route path="/about" element={<About />}></Route>
+            <Route path="/menu" element={<Menu />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
