@@ -6,7 +6,14 @@ function Navbar() {
         margin: 0,
         padding: 0,
 
-        position: "relative",
+        position: "fixed",
+        top: "10vh",
+        left: 0,
+
+        height: "3vh",
+        width: "100vw",
+
+        display: "flex",
     }
 
     return (
