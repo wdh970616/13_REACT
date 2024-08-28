@@ -10,7 +10,7 @@ function Main() {
 
         height: "80vh",
         width: "100vw",
-    }
+    };
 
     return (
         <>
@@ -18,7 +18,7 @@ function Main() {
                 <h1>Main Page</h1>
             </div>
         </>
-    )
+    );
 }
 
 export default Main;

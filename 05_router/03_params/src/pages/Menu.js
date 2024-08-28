@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { getMenuList } from "../api/MenuAPI";
 import MenuItem from "../components/MenuItem";
-import boxStyle from "./Menu.module.css";
+import menuStyle from "./Menu.module.css";
 
 function Menu() {
 
@@ -10,16 +12,34 @@ function Menu() {
         padding: 0,
 
         position: "fixed",
-        top: "20vh",
+        top: 130,
         left: 0,
+
+        textAlign: "center",
+
+        height: "100%",
+        minWidth: "100vw",
 
         overflow: "auto",
 
-        height: "80vh",
-        width: "100vw",
-    }
+        // border: "1px solid red"
+    };
+
+    const menuHeaderStyle = {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center",
+
+        height: 100,
+
+        // border: "1px solid red"
+    };
+
+    const navigate = useNavigate();
 
     const [menuList, setMenuList] = useState([]);
+    const [searchValue, setSearchValue] = useState('');
 
     // Menu 컴포넌트가 마운트 되기 전에 데이터를 가져와서 state에 담기
     useEffect(
@@ -34,19 +54,29 @@ function Menu() {
             setMenuList(getMenuList());
         }
         , []
-    )
+    );
+
+    const onClickHandler = () => {
+        // console.log(searchValue);
+
+        navigate(`/menu/search?menuName=${searchValue}`);
+    };
 
     return (
         <>
             <div style={outletStyle}>
-                <h1>오지라퍼 메뉴</h1>
-                <div className={boxStyle.MenuBox}>
+                <div style={menuHeaderStyle}>
+                    <h1>오지라퍼 메뉴</h1>
+                    <input type="search" name="menuName" onChange={(e) => setSearchValue(e.target.value)} />
+                    <button onClick={onClickHandler}>검색</button>
+                </div>
+                <div className={menuStyle.MenuBox}>
                     {/* 메뉴 컴포넌트를 반복해서 보여줄 예정 */}
-                    {menuList.map(menu => <MenuItem key={menu.menuCode} menu={menu}></MenuItem>)}
+                    {menuList.map(menu => <MenuItem key={menu.menuCode} menu={menu} />)}
                 </div>
             </div>
         </>
-    )
+    );
 }
 
 export default Menu;

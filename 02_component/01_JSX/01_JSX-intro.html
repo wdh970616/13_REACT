@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +9,10 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
+
 <body>
-    <div id = 'root'></div>
+    <div id='root'></div>
+
     <!-- 
         JSX란? 
         createElement를 이용해 엘리먼트를 정의하면 복잡하기도 하고 가독성도 좋지 않다.
@@ -25,8 +28,8 @@
         2. script 태그에 type 속성에 text/babel 속성값을 추가한다.
     -->
 
-    <script type = "text/babel">
-        
+    <script type="text/babel">
+
         // const helloWorld = React.createElement('h1','','Hello World');
 
         const helloWorld = <h1>Hello World</h1>;
@@ -34,4 +37,5 @@
         ReactDOM.createRoot(document.getElementById('root')).render(helloWorld);
     </script>
 </body>
+
 </html>

@@ -1,5 +1,5 @@
 function Header() {
-    
+
     const headerStyle = {
         // border: "1px solid red",
 
@@ -10,15 +10,17 @@ function Header() {
         top: 0,
         left: 0,
 
-        maxHeight: "10vw",
+        height: 100,
         minWidth: "100vw",
-        
+
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
 
         backgroundColor: "black",
         color: "whitesmoke",
+
+        // border: "1px solid red"
     }
 
     return (

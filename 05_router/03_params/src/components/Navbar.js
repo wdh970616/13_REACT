@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom";
 
 function Navbar() {
 
@@ -7,23 +7,23 @@ function Navbar() {
         padding: 0,
 
         position: "fixed",
-        top: "10vh",
+        top: 100,
         left: 0,
 
-        height: "3vh",
-        width: "100vw",
+        height: 30,
+        minWidth: "100vw",
 
         display: "flex",
+        justifyContent: "space-evenly",
+        alignItems: "center",
     }
 
     return (
-        <div style={navbarStyle}>
-            <ul>
+            <ul style={navbarStyle}>
                 <li><NavLink to="/">홈페이지</NavLink></li>
                 <li><NavLink to="/about">소개</NavLink></li>
                 <li><NavLink to="/menu">메뉴</NavLink></li>
             </ul>
-        </div>
     )
 }
 
